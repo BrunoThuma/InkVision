@@ -3,74 +3,63 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5EA38932272C38F6005996A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA38931272C38F6005996A4 /* AppDelegate.swift */; };
-		5EA38934272C38F6005996A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA38933272C38F6005996A4 /* SceneDelegate.swift */; };
-		5EA38936272C38F6005996A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA38935272C38F6005996A4 /* ViewController.swift */; };
-		5EA3893B272C38F9005996A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5EA3893A272C38F9005996A4 /* Assets.xcassets */; };
+		39DC9A21ECA3C6E26E09C393 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29406AFE70702A2AB7F5EA7F /* AppDelegate.swift */; };
+		D377E6C0783D0B0D21552FDB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B7E6AA3BB9461BE2C9BAD /* SceneDelegate.swift */; };
+		D9EB520674B160DFB9369B7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A2E94E79204847357D9A91 /* ViewController.swift */; };
+		FA579044A27FD52221A70CE8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 981EFDA97AE3A5152E41622C /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5EA3892E272C38F6005996A4 /* TheOfficers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheOfficers.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5EA38931272C38F6005996A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5EA38933272C38F6005996A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5EA38935272C38F6005996A4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5EA3893A272C38F9005996A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5EA3893F272C38F9005996A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		14DCDBEA15AF7B2AB6DDBB73 /* TheOfficers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TheOfficers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		29406AFE70702A2AB7F5EA7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		39A2E94E79204847357D9A91 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		981EFDA97AE3A5152E41622C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AE1398FBFCD90BDE190E000C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D56B7E6AA3BB9461BE2C9BAD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		5EA3892B272C38F6005996A4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		5EA38925272C38F6005996A4 = {
+		28D2F5D8FE5F8FE285EC3098 /* TheOfficers */ = {
 			isa = PBXGroup;
 			children = (
-				5EA38930272C38F6005996A4 /* TheOfficers */,
-				5EA3892F272C38F6005996A4 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		5EA3892F272C38F6005996A4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5EA3892E272C38F6005996A4 /* TheOfficers.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		5EA38930272C38F6005996A4 /* TheOfficers */ = {
-			isa = PBXGroup;
-			children = (
-				5EA38931272C38F6005996A4 /* AppDelegate.swift */,
-				5EA38933272C38F6005996A4 /* SceneDelegate.swift */,
-				5EA38935272C38F6005996A4 /* ViewController.swift */,
-				5EA3893A272C38F9005996A4 /* Assets.xcassets */,
-				5EA3893F272C38F9005996A4 /* Info.plist */,
+				29406AFE70702A2AB7F5EA7F /* AppDelegate.swift */,
+				981EFDA97AE3A5152E41622C /* Assets.xcassets */,
+				AE1398FBFCD90BDE190E000C /* Info.plist */,
+				D56B7E6AA3BB9461BE2C9BAD /* SceneDelegate.swift */,
+				39A2E94E79204847357D9A91 /* ViewController.swift */,
 			);
 			path = TheOfficers;
+			sourceTree = "<group>";
+		};
+		328DA09751F5C56F0E93BEC7 = {
+			isa = PBXGroup;
+			children = (
+				28D2F5D8FE5F8FE285EC3098 /* TheOfficers */,
+				8697A983CC236478F853DF00 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8697A983CC236478F853DF00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14DCDBEA15AF7B2AB6DDBB73 /* TheOfficers.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5EA3892D272C38F6005996A4 /* TheOfficers */ = {
+		6574EDC8A83ED82848811FAA /* TheOfficers */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5EA38942272C38F9005996A4 /* Build configuration list for PBXNativeTarget "TheOfficers" */;
+			buildConfigurationList = 4DFFD797F28352CA19A8820E /* Build configuration list for PBXNativeTarget "TheOfficers" */;
 			buildPhases = (
-				5EA3892A272C38F6005996A4 /* Sources */,
-				5EA3892B272C38F6005996A4 /* Frameworks */,
-				5EA3892C272C38F6005996A4 /* Resources */,
+				02EE85D145AEEB68D30584B7 /* Sources */,
+				6369014AA3562D26D83FFCB0 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -78,74 +67,83 @@
 			);
 			name = TheOfficers;
 			productName = TheOfficers;
-			productReference = 5EA3892E272C38F6005996A4 /* TheOfficers.app */;
+			productReference = 14DCDBEA15AF7B2AB6DDBB73 /* TheOfficers.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5EA38926272C38F6005996A4 /* Project object */ = {
+		B471992E2E79D86562860AA9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1310;
-				TargetAttributes = {
-					5EA3892D272C38F6005996A4 = {
-						CreatedOnToolsVersion = 13.1;
-					};
-				};
+				LastUpgradeCheck = 1200;
 			};
-			buildConfigurationList = 5EA38929272C38F6005996A4 /* Build configuration list for PBXProject "TheOfficers" */;
-			compatibilityVersion = "Xcode 13.0";
+			buildConfigurationList = CB0A3EAF14872629A19F5788 /* Build configuration list for PBXProject "TheOfficers" */;
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 5EA38925272C38F6005996A4;
-			productRefGroup = 5EA3892F272C38F6005996A4 /* Products */;
+			mainGroup = 328DA09751F5C56F0E93BEC7;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5EA3892D272C38F6005996A4 /* TheOfficers */,
+				6574EDC8A83ED82848811FAA /* TheOfficers */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5EA3892C272C38F6005996A4 /* Resources */ = {
+		6369014AA3562D26D83FFCB0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EA3893B272C38F9005996A4 /* Assets.xcassets in Resources */,
+				FA579044A27FD52221A70CE8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5EA3892A272C38F6005996A4 /* Sources */ = {
+		02EE85D145AEEB68D30584B7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EA38936272C38F6005996A4 /* ViewController.swift in Sources */,
-				5EA38932272C38F6005996A4 /* AppDelegate.swift in Sources */,
-				5EA38934272C38F6005996A4 /* SceneDelegate.swift in Sources */,
+				39DC9A21ECA3C6E26E09C393 /* AppDelegate.swift in Sources */,
+				D377E6C0783D0B0D21552FDB /* SceneDelegate.swift in Sources */,
+				D9EB520674B160DFB9369B7A /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5EA38940272C38F9005996A4 /* Debug */ = {
+		1EEC296E3747A67E7070F3A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = UY7S7HWX9K;
+				INFOPLIST_FILE = TheOfficers/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = br.brunothuma.TheOfficers.TheOfficers;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4FE0EB574F3FB8F90CD9C4BB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -181,8 +179,8 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -194,19 +192,21 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		5EA38941272C38F9005996A4 /* Release */ = {
+		C3CBC6E7E79E5245EAFE1AB8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -248,63 +248,27 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = YES;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		5EA38943272C38F9005996A4 /* Debug */ = {
+		FF5F9E1721035A465E0655CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = UY7S7HWX9K;
-				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TheOfficers/Info.plist;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = br.brunothuma.TheOfficers;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		5EA38944272C38F9005996A4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = UY7S7HWX9K;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TheOfficers/Info.plist;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = br.brunothuma.TheOfficers;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				PRODUCT_BUNDLE_IDENTIFIER = br.brunothuma.TheOfficers.TheOfficers;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -312,25 +276,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5EA38929272C38F6005996A4 /* Build configuration list for PBXProject "TheOfficers" */ = {
+		4DFFD797F28352CA19A8820E /* Build configuration list for PBXNativeTarget "TheOfficers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5EA38940272C38F9005996A4 /* Debug */,
-				5EA38941272C38F9005996A4 /* Release */,
+				1EEC296E3747A67E7070F3A0 /* Debug */,
+				FF5F9E1721035A465E0655CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		5EA38942272C38F9005996A4 /* Build configuration list for PBXNativeTarget "TheOfficers" */ = {
+		CB0A3EAF14872629A19F5788 /* Build configuration list for PBXProject "TheOfficers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5EA38943272C38F9005996A4 /* Debug */,
-				5EA38944272C38F9005996A4 /* Release */,
+				4FE0EB574F3FB8F90CD9C4BB /* Debug */,
+				C3CBC6E7E79E5245EAFE1AB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5EA38926272C38F6005996A4 /* Project object */;
+	rootObject = B471992E2E79D86562860AA9 /* Project object */;
 }

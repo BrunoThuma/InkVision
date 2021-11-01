@@ -1,0 +1,11 @@
+name: TheOfficers
+options:
+  bundleIdPrefix: br.brunothuma.TheOfficers
+  deploymentTarget:
+    iOS: 15.0
+targets:
+  TheOfficers:
+    type: application
+    platform: iOS
+    sources: 
+      - path: TheOfficers
