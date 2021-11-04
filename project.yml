@@ -1,6 +1,6 @@
 name: TheOfficers
 options:
-  bundleIdPrefix: br.brunothuma.TheOfficers
+  bundleIdPrefix: br.brunothuma
   deploymentTarget:
     iOS: 15.0
 targets:
