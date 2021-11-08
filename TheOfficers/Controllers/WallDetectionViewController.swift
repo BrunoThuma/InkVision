@@ -15,8 +15,8 @@ enum AppState: Int16 {
   case readyToPrint     // Surfaces detected *and* device is pointing to at least one
 }
 
-class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
-  // MARK: - Variables
+// MARK: - View Controller
+class WallDetectionViewController: UIViewController {
   lazy var ARView: ARSCNView = {
     let sceneView = ARSCNView()
     sceneView.delegate = self
@@ -42,7 +42,7 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
   var trackingStatus = ""
   
 
-  // MARK: - View initializers / events
+  // -> View initializers / events
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
       
@@ -77,7 +77,26 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
     appState = .lookingForWall
   }
   
-  // MARK: - App status
+  // -> Adding picture
+  func initGestureRecognizers() {
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap))
+    ARView.addGestureRecognizer(tapGestureRecognizer)
+  }
+
+  @objc func handleScreenTap(sender: UITapGestureRecognizer) {
+    let location = sender.location(in: ARView)
+    let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
+
+    let planeNode = results.first?.node
+    if planeNode != nil {
+      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
+    }
+  }
+}
+
+
+// MARK: - App status
+extension WallDetectionViewController {
   // This method is called once per frame, and we use it to perform tasks
   // that we want performed constantly.
   func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
@@ -140,8 +159,6 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
       statusMessage = "Look at walls to place posters."
       ARView.debugOptions = []
     }
-
-//    statusLabel.text = trackingStatus != "" ? "\(trackingStatus)" : "\(statusMessage)"
   }
 
   // We can’t check *every* point in the view to see if it contains one of
@@ -168,8 +185,12 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
     }
     return false
   }
-  
-  // MARK: - Plane detection
+}
+
+
+// MARK: - Plane detection
+extension WallDetectionViewController: ARSCNViewDelegate {
+  // -> Detection
 
   // This delegate method gets called whenever the node for
   // a *new* AR anchor is added to the scene.
@@ -213,26 +234,7 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
   }
   
   
-  // MARK: - Adding picture
-
-  func initGestureRecognizers() {
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap))
-    ARView.addGestureRecognizer(tapGestureRecognizer)
-  }
-
-  @objc func handleScreenTap(sender: UITapGestureRecognizer) {
-    let location = sender.location(in: ARView)
-    let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
-
-    let planeNode = results.first?.node
-    if planeNode != nil {
-      // Place image here
-      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
-    }
-  }
-  
-  // MARK: - AR session error management
-
+  // -> AR session error management
   func session(_ session: ARSession, didFailWithError error: Error) {
     // Present an error message to the user
     trackingStatus = "AR session failure: \(error)"
@@ -250,8 +252,8 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
   }
 }
 
-// MARK: - Utility methods
 
+// MARK: - Utility methods
 // Extend the "+" operator so that it can add two SCNVector3s together.
 func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
   return SCNVector3(left.x + right.x,
