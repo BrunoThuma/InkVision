@@ -200,9 +200,21 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
     }
   }
   
+  // This delegate method gets called whenever the node corresponding to
+  // an existing AR anchor is removed.
+  func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+    // We only want to deal with plane anchors.
+    guard anchor is ARPlaneAnchor else { return }
+
+    // Remove any children this node may have.
+    node.enumerateChildNodes { (childNode, _) in
+      childNode.removeFromParentNode()
+    }
+  }
+  
   
   // MARK: - Adding picture
-  // =====================================
+
   func initGestureRecognizers() {
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap))
     ARView.addGestureRecognizer(tapGestureRecognizer)
@@ -211,11 +223,11 @@ class WallDetectionViewController: UIViewController, ARSCNViewDelegate {
   @objc func handleScreenTap(sender: UITapGestureRecognizer) {
     let location = sender.location(in: ARView)
     let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
-      
+
     let planeNode = results.first?.node
-      
     if planeNode != nil {
       // Place image here
+      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
     }
   }
   
