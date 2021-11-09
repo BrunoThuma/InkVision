@@ -67,19 +67,15 @@ class MovementTrackingViewController: UIViewController {
         for: .video,
         position: .front)
         else {
-            throw AppError.captureSessionSetup(
-                reason: "Could not find a front facing camera."
-            )
+            throw AppError.noCamera
 //            print("Could not find a front facing camera.")
         }
 
         // Check if you can use the camera to create a capture device input.
         guard let deviceInput = try? AVCaptureDeviceInput(device: videoDevice)
         else {
-//            throw AppError.captureSessionSetup(
-//                reason: "Could not create video device input."
-//            )
-            print("Could not create video device input.")
+            throw AppError.noDeviceInput
+//            print("Could not create video device input.")
         }
 
         // Create a capture session and start configuring
@@ -90,10 +86,8 @@ class MovementTrackingViewController: UIViewController {
 
         // Check if the session can integrate the capture device input
         guard session.canAddInput(deviceInput) else {
-//            throw AppError.captureSessionSetup(
-//                reason: "Could not add video device input to the session"
-//            )
-            print("Could not add video device input to the session")
+            throw AppError.noDeviceOutput
+//            print("Could not add video device input to the session")
         }
         session.addInput(deviceInput)
 
@@ -151,3 +145,15 @@ extension MovementTrackingViewController: AVCaptureVideoDataOutputSampleBufferDe
         }
     }
 }
+
+
+/*
+ func handle(error: AppError) {
+     switch error {
+         case .captureSessionSetup(reason: .notSupported): // Mostra um erro
+         case .captureSessionSetup(reason: .noCamera): // Mostra outro erro
+         case .captureSessionSetup(reason: .unknown): // Mostra mais um erro diferente
+         case .defaultError: // Faz outra coisa
+     }
+ }
+*/
