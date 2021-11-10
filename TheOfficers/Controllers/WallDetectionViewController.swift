@@ -13,6 +13,7 @@ enum AppState: Int16 {
   case lookingForWall   // Just starting out; no surfaces detected yet
   case pointToWall      // Surfaces detected, but device is not pointing to any of them
   case readyToPrint     // Surfaces detected *and* device is pointing to at least one
+  case printed          // Image was placed on wall
 }
 
 // MARK: - View Controller
@@ -40,6 +41,7 @@ class WallDetectionViewController: UIViewController {
   var appState: AppState = .lookingForWall
   var statusMessage = ""
   var trackingStatus = ""
+  var existingPlanes = [SCNNode]()
   
 
   // -> View initializers / events
@@ -90,6 +92,18 @@ class WallDetectionViewController: UIViewController {
     let planeNode = results.first?.node
     if planeNode != nil {
       planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
+      planeNode?.opacity = 1.0
+      appState = .printed
+      
+      for plane in existingPlanes {
+        if plane != planeNode!.parent {
+          // Removes AR Nodes that don't contain the clicked plane
+          plane.parent?.removeFromParentNode()
+        }
+      }
+      
+      existingPlanes = []
+      existingPlanes.append(planeNode!.parent!)
     }
   }
 }
@@ -158,6 +172,9 @@ extension WallDetectionViewController {
     case .readyToPrint:
       statusMessage = "Look at walls to place posters."
       ARView.debugOptions = []
+    case .printed:
+      statusMessage = "Image was placed on image."
+      ARView.debugOptions = []
     }
   }
 
@@ -198,11 +215,14 @@ extension WallDetectionViewController: ARSCNViewDelegate {
     guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
     let plane = Plane(anchor: planeAnchor, in: ARView)
     
-    // Remove any children this node may have.
-    node.enumerateChildNodes { (childNode, _) in
-      childNode.removeFromParentNode()
+    if appState != .printed {
+      // Remove any children this node may have.
+      node.enumerateChildNodes { (childNode, _) in
+        childNode.removeFromParentNode()
+      }
+      node.addChildNode(plane)
+      existingPlanes.append(plane)
     }
-    node.addChildNode(plane)
   }
 
   // This delegate method gets called whenever the node for

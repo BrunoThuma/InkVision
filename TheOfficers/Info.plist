@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Needed for wall detection</string>
+	<string>We use the camera access in order to detect the walls were the painting can be placed</string>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>
 	<key>CFBundleExecutable</key>
