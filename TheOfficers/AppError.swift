@@ -7,23 +7,38 @@
 
 import UIKit
 
-enum AppError: Error{
-    case noCamera
-    case noDeviceInput
-    case noDeviceOutput
-    case defaultError
-}
-
-extension AppError: CustomStringConvertible {
-    var description: String {
-        switch self {
-        case .noCamera:
-            return "Could not find a front facing camera."
-        case .noDeviceInput:
-            return "Could not create video device input."
-        case .noDeviceOutput:
-            return "Could not add video device input to the session"
-        case .defaultError: return "1"
+enum AppError: Error {
+    case captureSessionSetup(reason: String)
+    case visionError(error: Error)
+    case otherError(error: Error)
+    
+    static func display(_ error: Error, inViewController viewController: UIViewController) {
+        if let appError = error as? AppError {
+            appError.displayInViewController(viewController)
+        } else {
+            AppError.otherError(error: error).displayInViewController(viewController)
         }
     }
+    
+    func displayInViewController(_ viewController: UIViewController) {
+        let title: String?
+        let message: String?
+        switch self {
+        case .captureSessionSetup(let reason):
+            title = "AVSession Setup Error"
+            message = reason
+        case .visionError(let error):
+            title = "Vision Error"
+            message = error.localizedDescription
+        case .otherError(let error):
+            title = "Error"
+            message = error.localizedDescription
+        }
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }
+

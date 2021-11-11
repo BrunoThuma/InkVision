@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     }
     
     func presentBodyTrackingVC() {
-        let bodyTrackingVC = MovementTrackingViewController()
+        let bodyTrackingVC = MotionDetectionViewController()
         navigationController?.pushViewController(bodyTrackingVC, animated: true)
     }
 }
