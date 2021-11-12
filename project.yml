@@ -1,11 +1,11 @@
-name: TheOfficers
+name: InkVision
 options:
   bundleIdPrefix: br.brunothuma
   deploymentTarget:
     iOS: 15.0
 targets:
-  TheOfficers:
+  InkVision:
     type: application
     platform: iOS
     sources: 
-      - path: TheOfficers
+      - path: InkVision
