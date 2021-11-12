@@ -88,23 +88,26 @@ class WallDetectionViewController: UIViewController {
     let planeNode = results.first?.node
     
     if planeNode != nil {
-      for plane in existingPlanes {
-        if plane != planeNode!.parent {
-          // Removes AR Nodes that don't contain the clicked plane
-          plane.parent?.geometry?.firstMaterial?.normal.contents = nil
-          plane.parent?.geometry?.firstMaterial?.diffuse.contents = nil
-          plane.parent?.removeFromParentNode()
+      // Only attempts to place image in the case the node was detect, otherwise the scene breaks
+      if existingPlanes.contains(planeNode!.parent!) {
+        for plane in existingPlanes {
+          if plane != planeNode!.parent {
+            // Removes AR Nodes that don't contain the clicked plane
+            plane.parent?.removeFromParentNode()
+          }
         }
-      }
-      
-      appState = .printed
-      ARView.debugOptions = []
-      
-      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
-      planeNode?.opacity = 1.0
+        
+        appState = .printed
+        ARView.debugOptions = []
 
-      existingPlanes.removeAll()
-      existingPlanes.append(planeNode!.parent!)
+        
+        planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
+        planeNode?.opacity = 1.0
+
+        
+        existingPlanes.removeAll()
+        existingPlanes.append(planeNode!.parent!)
+      }
     }
   }
 }
