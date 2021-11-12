@@ -11,8 +11,6 @@ import SnapKit
 
 enum AppState: Int16 {
   case lookingForWall   // Just starting out; no surfaces detected yet
-  case pointToWall      // Surfaces detected, but device is not pointing to any of them
-  case readyToPrint     // Surfaces detected *and* device is pointing to at least one
   case printed          // Image was placed on wall
 }
 
@@ -31,7 +29,7 @@ class WallDetectionViewController: UIViewController {
   
   lazy var ARConfig: ARConfiguration = {
     let config = ARWorldTrackingConfiguration()  // Use "6 degrees of freedom" tracking
-    config.worldAlignment = .gravity
+    config.worldAlignment = .camera
     config.planeDetection = [.vertical]
     config.isLightEstimationEnabled = true
     
@@ -39,8 +37,6 @@ class WallDetectionViewController: UIViewController {
   }()
   
   var appState: AppState = .lookingForWall
-  var statusMessage = ""
-  var trackingStatus = ""
   var existingPlanes = [SCNNode]()
   
 
@@ -90,118 +86,26 @@ class WallDetectionViewController: UIViewController {
     let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
 
     let planeNode = results.first?.node
-
+    
     if planeNode != nil {
-      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
-      planeNode?.opacity = 1.0
-      appState = .printed
-      
       for plane in existingPlanes {
         if plane != planeNode!.parent {
           // Removes AR Nodes that don't contain the clicked plane
+          plane.parent?.geometry?.firstMaterial?.normal.contents = nil
+          plane.parent?.geometry?.firstMaterial?.diffuse.contents = nil
           plane.parent?.removeFromParentNode()
         }
       }
       
-      existingPlanes = []
+      appState = .printed
+      ARView.debugOptions = []
+      
+      planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
+      planeNode?.opacity = 1.0
+
+      existingPlanes.removeAll()
       existingPlanes.append(planeNode!.parent!)
     }
-  }
-}
-
-
-// MARK: - App status
-extension WallDetectionViewController {
-  // This method is called once per frame, and we use it to perform tasks
-  // that we want performed constantly.
-  func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-    DispatchQueue.main.async {
-      self.updateAppState()
-      self.updateStatusText()
-    }
-  }
-
-  // Updates the app status, based on whether any of the detected planes
-  // are currently in view.
-  func updateAppState() {
-    guard appState == .pointToWall ||
-      appState == .readyToPrint
-      else {
-        return
-    }
-
-    if isAnyPlaneInView() {
-      appState = .readyToPrint
-    } else {
-      appState = .pointToWall
-    }
-  }
-
-  // Update the status text at the top of the screen whenever
-  // the AR camera tracking state changes.
-  func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-    switch camera.trackingState {
-    case .notAvailable:
-      trackingStatus = "For some reason, augmented reality tracking isn’t available."
-    case .normal:
-      trackingStatus = ""
-    case .limited(let reason):
-      switch reason {
-      case .excessiveMotion:
-        trackingStatus = "You’re moving the device around too quickly. Slow down."
-      case .insufficientFeatures:
-        trackingStatus = "I can’t get a sense of the room. Is something blocking the rear camera?"
-      case .initializing:
-        trackingStatus = "Initializing — please wait a moment..."
-      case .relocalizing:
-        trackingStatus = "Relocalizing — please wait a moment..."
-      @unknown default:
-        trackingStatus = "Error — please wait a moment..."
-      }
-    }
-  }
-
-  // Updates the status text displayed at the top of the screen.
-  func updateStatusText() {
-    switch appState {
-    case .lookingForWall:
-      statusMessage = "Scan the room with your device until the yellow dots appear."
-      ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-    case .pointToWall:
-      statusMessage = "Point your device towards one of the detected surfaces."
-      ARView.debugOptions = []
-    case .readyToPrint:
-      statusMessage = "Look at walls to place posters."
-      ARView.debugOptions = []
-    case .printed:
-      statusMessage = "Image was placed on image."
-      ARView.debugOptions = []
-    }
-  }
-
-  // We can’t check *every* point in the view to see if it contains one of
-  // the detected planes. Instead, we assume that the planes that will be detected
-  // will intersect with at least one point on a 5*5 grid spanning the entire view.
-  func isAnyPlaneInView() -> Bool {
-    let screenDivisions = 5 - 1
-    let viewWidth = view.bounds.size.width
-    let viewHeight = view.bounds.size.height
-
-    for y in 0...screenDivisions {
-      let yCoord = CGFloat(y) / CGFloat(screenDivisions) * viewHeight
-      for x in 0...screenDivisions {
-        let xCoord = CGFloat(x) / CGFloat(screenDivisions) * viewWidth
-        let point = CGPoint(x: xCoord, y: yCoord)
-
-        // Perform hit test for planes.
-        let hitTest = ARView.hitTest(point, options: [SCNHitTestOption.searchMode : 1])
-        if !hitTest.isEmpty {
-          return true
-        }
-
-      }
-    }
-    return false
   }
 }
 
@@ -256,20 +160,10 @@ extension WallDetectionViewController: ARSCNViewDelegate {
   
   
   // -> AR session error management
-  func session(_ session: ARSession, didFailWithError error: Error) {
-    // Present an error message to the user
-    trackingStatus = "AR session failure: \(error)"
-  }
-
-  func sessionWasInterrupted(_ session: ARSession) {
-    // Inform the user that the session has been interrupted, for example, by presenting an overlay
-    trackingStatus = "AR session was interrupted!"
-  }
-
   func sessionInterruptionEnded(_ session: ARSession) {
     // Reset tracking and/or remove existing anchors if consistent tracking is required
-    trackingStatus = "AR session interruption ended."
     resetARsession()
+    ARView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
   }
 }
 
