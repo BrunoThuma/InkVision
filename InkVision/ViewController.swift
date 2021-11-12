@@ -29,5 +29,12 @@ class ViewController: UIViewController {
         ]
         
         NSLayoutConstraint.activate(constraints)
+        
+        presentBodyTrackingVC()
+    }
+    
+    func presentBodyTrackingVC() {
+        let bodyTrackingVC = MotionDetectionViewController()
+        navigationController?.pushViewController(bodyTrackingVC, animated: true)
     }
 }
