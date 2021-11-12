@@ -90,6 +90,7 @@ class WallDetectionViewController: UIViewController {
     let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
 
     let planeNode = results.first?.node
+
     if planeNode != nil {
       planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
       planeNode?.opacity = 1.0
