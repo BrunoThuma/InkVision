@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '10.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target 'InkVision' do
-    pod 'SnapKit', '~> 4.0'
+    pod 'SnapKit', '~> 5.0'
 end
