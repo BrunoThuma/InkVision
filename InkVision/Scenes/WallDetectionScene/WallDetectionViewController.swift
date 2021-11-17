@@ -24,17 +24,23 @@ class WallDetectionViewController: UIViewController {
     sceneView.antialiasingMode = .multisampling2X
     sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 
+    sceneView.layer.cornerRadius = 30
+    sceneView.layer.borderWidth = 0.1
+    sceneView.layer.masksToBounds = true
+
     return sceneView
   }()
   
   lazy var ARConfig: ARConfiguration = {
-    let config = ARWorldTrackingConfiguration()  // Use "6 degrees of freedom" tracking
+    let config = ARWorldTrackingConfiguration()
     config.worldAlignment = .camera
     config.planeDetection = [.vertical]
     config.isLightEstimationEnabled = true
     
     return config
   }()
+  
+  var buttonOutlined: ButtonOutlined = .createButton(text: "Click on the choosen wall to \n see your art on it")
   
   var appState: AppState = .lookingForWall
   var existingPlanes = [SCNNode]()
@@ -59,14 +65,31 @@ class WallDetectionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupARView()
+    setupHierarchy()
+    setupConstraints()
     initGestureRecognizers()
   }
   
-  func setupARView() {
+  func setupHierarchy() {
+    view.backgroundColor = UIColor(named: "backgroundGray")
+    
     view.addSubview(ARView)
+    view.addSubview(buttonOutlined)
+  }
+  
+  func setupConstraints() {
     ARView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.leading.equalToSuperview().offset(16)
+      make.trailing.equalToSuperview().offset(-16)
+      make.top.equalToSuperview().offset(60)
+      make.bottom.equalToSuperview().offset(-130)
+    }
+    
+    buttonOutlined.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(52)
+      make.trailing.equalToSuperview().offset(-52)
+      make.top.equalToSuperview().offset(730)
+      make.bottom.equalToSuperview().offset(-44)
     }
   }
   
