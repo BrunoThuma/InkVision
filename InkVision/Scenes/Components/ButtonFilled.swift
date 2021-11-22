@@ -18,8 +18,6 @@ class ButtonFilled: UIButton {
   }
   
   static func createButton(text: String, buttonImage: String? = nil) -> ButtonFilled {
-    print("creating button")
-      
     let button = ButtonFilled()
    
     button.setTitle(text, for: .normal)

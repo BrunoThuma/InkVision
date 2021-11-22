@@ -24,21 +24,56 @@ class WallDetectionViewController: UIViewController {
     sceneView.antialiasingMode = .multisampling2X
     sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
 
+    sceneView.layer.cornerRadius = 30
+    sceneView.layer.borderWidth = 0.1
+    sceneView.layer.masksToBounds = true
+
     return sceneView
   }()
   
   lazy var ARConfig: ARConfiguration = {
-    let config = ARWorldTrackingConfiguration()  // Use "6 degrees of freedom" tracking
+    let config = ARWorldTrackingConfiguration()
     config.worldAlignment = .camera
     config.planeDetection = [.vertical]
     config.isLightEstimationEnabled = true
     
     return config
   }()
+
+  lazy var snapshotView: UIImageView = {
+    let view = UIImageView()
+    
+    view.layer.cornerRadius = 30
+    view.layer.borderWidth = 0.1
+    view.layer.masksToBounds = true
+    
+    return view
+  }()
   
-  var appState: AppState = .lookingForWall
+  lazy var imageCaptureButton: UIButton = {
+    let button = UIButton()
+    let config = UIImage.SymbolConfiguration(pointSize: 58, weight: .regular, scale: .large)
+    button.setImage(UIImage(systemName: "largecircle.fill.circle", withConfiguration: config), for: .normal)
+    button.tintColor = .white
+    
+    return button
+  }()
+  
+  lazy var downloadButton: UIButton = {
+    let button = UIButton()
+    let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular, scale: .large)
+    button.setImage(UIImage(systemName: "square.and.arrow.down.on.square", withConfiguration: config), for: .normal)
+    button.tintColor = UIColor(named: "pink")
+    
+    return button
+  }()
+  
   var existingPlanes = [SCNNode]()
+  var appState: AppState = .lookingForWall
   
+  var buttonFilled: ButtonFilled = .createButton(text: "Continue", buttonImage: "arrow.forward")
+  var buttonOutlined: ButtonOutlined = .createButton(text: "Click on the choosen wall to \n see your art on it")
+
 
   // -> View initializers / events
   override func viewWillAppear(_ animated: Bool) {
@@ -59,29 +94,73 @@ class WallDetectionViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    setupARView()
+    setupHierarchy()
+    setupConstraints()
     initGestureRecognizers()
   }
   
-  func setupARView() {
+  func setupHierarchy() {
+    view.backgroundColor = UIColor(named: "backgroundGray")
+    
     view.addSubview(ARView)
+    view.addSubview(snapshotView)
+    view.addSubview(imageCaptureButton)
+    view.addSubview(downloadButton)
+    view.addSubview(buttonOutlined)
+    view.addSubview(buttonFilled)
+  }
+  
+  func setupConstraints() {
     ARView.snp.makeConstraints { make in
-      make.edges.equalToSuperview()
+      make.leading.equalToSuperview().offset(16)
+      make.trailing.equalToSuperview().offset(-16)
+      make.top.equalToSuperview().offset(60)
+      make.bottom.equalToSuperview().offset(-130)
+    }
+    
+    snapshotView.alpha = 0
+    snapshotView.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(16)
+      make.trailing.equalToSuperview().offset(-16)
+      make.top.equalToSuperview().offset(60)
+      make.bottom.equalToSuperview().offset(-130)
+    }
+    
+    buttonOutlined.snp.makeConstraints { make in
+      make.top.equalToSuperview().offset(730)
+      make.centerX.equalToSuperview()
+    }
+
+    buttonFilled.alpha = 0
+    buttonFilled.snp.makeConstraints { make in
+      make.top.equalToSuperview().offset(730)
+      make.centerX.equalToSuperview()
+    }
+
+    imageCaptureButton.alpha = 0
+    imageCaptureButton.snp.makeConstraints { make in
+      make.top.equalToSuperview().offset(620)
+      make.centerX.equalToSuperview()
+    }
+    
+    downloadButton.alpha = 0
+    downloadButton.snp.makeConstraints { make in
+      make.top.equalToSuperview().offset(730)
+      make.leading.equalTo(30)
     }
   }
-  
-  func resetARsession() {
-    ARView.session.run(ARConfig, options: [.resetTracking, .removeExistingAnchors])
-    appState = .lookingForWall
-  }
-  
-  // -> Adding picture
-  func initGestureRecognizers() {
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleScreenTap))
-    ARView.addGestureRecognizer(tapGestureRecognizer)
-  }
+}
 
-  @objc func handleScreenTap(sender: UITapGestureRecognizer) {
+// MARK: - Gesture Recognizers
+extension WallDetectionViewController {
+  func initGestureRecognizers() {
+    ARView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleScreenTap)))
+    imageCaptureButton.addTarget(self, action: #selector(capturePhoto), for: .touchUpInside)
+    downloadButton.addTarget(self, action: #selector(savePhoto), for: .touchUpInside)
+  }
+  
+  @objc
+  func handleScreenTap(sender: UITapGestureRecognizer) {
     let location = sender.location(in: ARView)
     let results = ARView.hitTest(location, options: [SCNHitTestOption.searchMode : 1])
 
@@ -103,12 +182,44 @@ class WallDetectionViewController: UIViewController {
         
         planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
         planeNode?.opacity = 1.0
-
+        
+        buttonOutlined.removeFromSuperview()
+        buttonFilled.alpha = 1
+        imageCaptureButton.alpha = 1
+        
+        UIView.animate(withDuration: 0.5) {
+          self.buttonOutlined.alpha = 0
+          self.buttonFilled.alpha = 1
+          self.imageCaptureButton.alpha = 1
+        }
         
         existingPlanes.removeAll()
         existingPlanes.append(planeNode!.parent!)
       }
     }
+  }
+  
+  @objc
+  func capturePhoto() {
+    let scene = ARView.snapshot()
+    snapshotView.image = scene
+    
+    UIView.animate(withDuration: 0.5) {
+      self.snapshotView.alpha = 1
+      self.downloadButton.alpha = 1
+      self.imageCaptureButton.alpha = 0
+    }
+    
+    // Adjusts button constraints
+    buttonFilled.snp.updateConstraints { make in
+      make.centerX.equalToSuperview().offset(30)
+    }
+  }
+  
+  @objc
+  func savePhoto() {
+    guard let image = snapshotView.image else { return }
+    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
   }
 }
 
@@ -116,7 +227,6 @@ class WallDetectionViewController: UIViewController {
 // MARK: - Plane detection
 extension WallDetectionViewController: ARSCNViewDelegate {
   // -> Detection
-
   // This delegate method gets called whenever the node for
   // a *new* AR anchor is added to the scene.
   func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
@@ -162,6 +272,13 @@ extension WallDetectionViewController: ARSCNViewDelegate {
   }
   
   
+  // -> AR configuration
+  func resetARsession() {
+    ARView.session.run(ARConfig, options: [.resetTracking, .removeExistingAnchors])
+    appState = .lookingForWall
+  }
+  
+  
   // -> AR session error management
   func sessionInterruptionEnded(_ session: ARSession) {
     // Reset tracking and/or remove existing anchors if consistent tracking is required
@@ -170,11 +287,3 @@ extension WallDetectionViewController: ARSCNViewDelegate {
   }
 }
 
-
-// MARK: - Utility methods
-// Extend the "+" operator so that it can add two SCNVector3s together.
-func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
-  return SCNVector3(left.x + right.x,
-                    left.y + right.y,
-                    left.z + right.z)
-}
