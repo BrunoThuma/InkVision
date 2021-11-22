@@ -12,6 +12,8 @@ import Vision
 class MotionDetectionViewController: UIViewController {
 
     private var motionDetectionView: MotionDetectionView! //{ view as! motionDetectionView }
+    private lazy var finishArtButton: ButtonFilled = .createButton(text: "test", buttonImage: nil)
+    private var draw: DrawView?
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
@@ -28,6 +30,13 @@ class MotionDetectionViewController: UIViewController {
     
     override func loadView() {
         view = MotionDetectionView()
+        
+        finishArtButton.addTarget(self,
+                                  action: #selector(finishDrawingTapped),
+                                  for: .touchUpInside)
+        
+        setupHierarchy()
+        setupConstraints()
     }
     
     override func viewDidLoad() {
@@ -52,7 +61,7 @@ class MotionDetectionViewController: UIViewController {
         recognizer.numberOfTouchesRequired = 1
         recognizer.numberOfTapsRequired = 2
         view.addGestureRecognizer(recognizer)
-        motionDetectionView.addTargetToFinishButton(self, action: #selector(finishDrawingTapped))
+//        motionDetectionView.addTargetToFinishButton(self, action: #selector(finishDrawingTapped))
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -72,6 +81,18 @@ class MotionDetectionViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
+    }
+    
+    private func setupHierarchy() {
+        view.addSubview(finishArtButton)
+        
+    }
+
+    private func setupConstraints() {
+        finishArtButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottomMargin.equalToSuperview().offset(-41)
+        }
     }
     
     func setupAVSession() throws {
@@ -168,9 +189,6 @@ class MotionDetectionViewController: UIViewController {
             if let lastPoint = lastDrawPoint {
                 // Add a straight line from the last midpoint to the end of the stroke.
                 drawPath.addLine(to: lastPoint)
-                for bits in drawPath.points {
-                    print(bits)
-                }
             }
             // We are done drawing, so reset the last draw point.
             lastDrawPoint = nil
@@ -185,6 +203,7 @@ class MotionDetectionViewController: UIViewController {
                 let midPoint = CGPoint.midPoint(p1: lastPoint, p2: drawPoint)
                 if isFirstSegment {
                     // If it's the first segment of the stroke, draw a line to the midpoint.
+
                     drawPath.addLine(to: midPoint)
                     isFirstSegment = false
                 } else {
@@ -204,12 +223,16 @@ class MotionDetectionViewController: UIViewController {
         
         for path in ArtFromPath.bezierPath {
             drawOverlay.path = path.cgPath
+            print("Brothers")
         }
     }
     
     @objc
     func finishDrawingTapped() {
-        drawArt()
+        print("Jonas")
+        
+        draw = DrawView(frame: self.view.bounds, path: drawPath)
+        view.addSubview(draw!)
     }
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
@@ -265,4 +288,4 @@ extension MotionDetectionViewController: AVCaptureVideoDataOutputSampleBufferDel
         }
     }
 }
-
+    

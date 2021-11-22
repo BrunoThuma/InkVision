@@ -13,7 +13,7 @@ class MotionDetectionView: UIView {
 
     private var overlayLayer = CAShapeLayer()
     private var pointsPath = UIBezierPath()
-    private lazy var finishArtButton: UIButton = .init()
+    private lazy var finishArtButton: ButtonFilled = .createButton(text: "Pimp my Art", buttonImage: nil)
 
     var previewLayer: AVCaptureVideoPreviewLayer {
         return layer as! AVCaptureVideoPreviewLayer
@@ -27,7 +27,8 @@ class MotionDetectionView: UIView {
         super.init(frame: frame)
         setupOverlay()
         
-        
+//        setupHierarchy()
+//        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -45,6 +46,17 @@ class MotionDetectionView: UIView {
     private func setupOverlay() {
         previewLayer.addSublayer(overlayLayer)
     }
+    
+//    private func setupHierarchy() {
+//        addSubview(finishArtButton)
+//    }
+//
+//    private func setupConstraints() {
+//        finishArtButton.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.bottomMargin.equalToSuperview().offset(41)
+//        }
+//    }
     
     func addTargetToFinishButton(_ target: Any?, action: Selector) {
         finishArtButton.addTarget(target, action: action, for: .touchUpInside)

@@ -57,7 +57,7 @@ final class ArtFromPath {
             }
             switch newPath.points.last {
             case .move(_):
-                print("")
+                print("case move")
             case .curve(let endPoint, _, let controlPoint2):
                 lastPoint = endPoint
                 lastCurve = controlPoint2
@@ -87,7 +87,7 @@ final class ArtFromPath {
         let delta:CGFloat = b * b - 4 * a * c
         if delta < 0 {
             x = final.x
-            print ("no possible straights")
+            print ("no possible straights 🏳️‍🌈")
             fatalError()
         }
         else if delta > 0 {
@@ -116,7 +116,7 @@ final class ArtFromPath {
             x = -b / 2 * a
         }
         let y = m * (x - final.x)  + final.y
-        print(CGPoint(x: x, y: y))
+//        print(CGPoint(x: x, y: y))
         return CGPoint(x: x, y: y)
     }
     

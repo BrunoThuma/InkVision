@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    private lazy var createArtButton: UIButton = .init()
+    private lazy var createArtButton: ButtonFilled = .createButton(text: "teste", buttonImage: nil)
     private lazy var label: UILabel = .init()
     
     override func viewDidLoad() {
@@ -26,11 +26,7 @@ class ViewController: UIViewController {
     func setupViews() {
         label.textColor = .black
         label.text = "teste"
-        label.translatesAutoresizingMaskIntoConstraints = false
         
-        createArtButton.setTitle("Create Art", for: .normal)
-        createArtButton.setTitleColor(.black, for: .normal)
-        createArtButton.translatesAutoresizingMaskIntoConstraints = false
         createArtButton.addTarget(self, action: #selector(createArtButtonTapped), for: .touchUpInside)
     }
     
