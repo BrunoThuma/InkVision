@@ -18,7 +18,7 @@ class MotionDetectionViewController: UIViewController {
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
     private let drawOverlay = CAShapeLayer()
-    private let drawPath = UIBezierPath()
+    private let drawPath = MyBezierPath()
     private var evidenceBuffer = [HandGestureProcessor.PointsPair]()
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
@@ -52,6 +52,7 @@ class MotionDetectionViewController: UIViewController {
         recognizer.numberOfTouchesRequired = 1
         recognizer.numberOfTapsRequired = 2
         view.addGestureRecognizer(recognizer)
+        motionDetectionView.addTargetToFinishButton(self, action: #selector(finishDrawingTapped))
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -160,12 +161,16 @@ class MotionDetectionViewController: UIViewController {
     private func updatePath(with points: HandGestureProcessor.PointsPair, isLastPointsPair: Bool) {
         // Get the mid point between the tips.
         let (thumbTip, indexTip) = points
+        // drawPoint is the middle point between the thumb and the index
         let drawPoint = CGPoint.midPoint(p1: thumbTip, p2: indexTip)
 
         if isLastPointsPair {
             if let lastPoint = lastDrawPoint {
                 // Add a straight line from the last midpoint to the end of the stroke.
                 drawPath.addLine(to: lastPoint)
+                for bits in drawPath.points {
+                    print(bits)
+                }
             }
             // We are done drawing, so reset the last draw point.
             lastDrawPoint = nil
@@ -192,6 +197,19 @@ class MotionDetectionViewController: UIViewController {
         }
         // Update the path on the overlay layer.
         drawOverlay.path = drawPath.cgPath
+    }
+    
+    private func drawArt() {
+        ArtFromPath.drawArt(path: drawPath)
+        
+        for path in ArtFromPath.bezierPath {
+            drawOverlay.path = path.cgPath
+        }
+    }
+    
+    @objc
+    func finishDrawingTapped() {
+        drawArt()
     }
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
@@ -232,7 +250,7 @@ extension MotionDetectionViewController: AVCaptureVideoDataOutputSampleBufferDel
                 return
             }
             // Ignore low confidence points.
-            guard thumbTipPoint.confidence > 0.3 && indexTipPoint.confidence > 0.3 else {
+            guard thumbTipPoint.confidence > 0.5 && indexTipPoint.confidence > 0.5 else {
                 return
             }
             // Convert points from Vision coordinates to AVFoundation coordinates.
