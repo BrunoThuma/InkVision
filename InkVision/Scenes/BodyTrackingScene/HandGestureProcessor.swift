@@ -55,8 +55,7 @@ class HandGestureProcessor {
             apartEvidenceCounter = 0
             // Set new state based on evidence amount.
             state = (pinchEvidenceCounter >= evidenceCounterStateTrigger) ? .pinched : .possiblePinch
-        } else {
-            // Keep accumulating evidence for apart state.
+        } else {            // Keep accumulating evidence for apart state.
             apartEvidenceCounter += 1
             pinchEvidenceCounter = 0
             // Set new state based on evidence amount.

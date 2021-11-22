@@ -9,6 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    private lazy var createArtButton: ButtonFilled = .createButton(text: "teste", buttonImage: nil)
     private lazy var label: UILabel = .init()
     
     override func viewDidLoad() {
@@ -17,24 +18,41 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemCyan
         // Do any additional setup after loading the view.
         
+        setupViews()
+        setupHierarchy()
+        setupConstraints()
+    }
+    
+    func setupViews() {
         label.textColor = .black
         label.text = "teste"
-        label.translatesAutoresizingMaskIntoConstraints = false
         
+        createArtButton.addTarget(self, action: #selector(createArtButtonTapped), for: .touchUpInside)
+    }
+    
+    func setupHierarchy() {
         view.addSubview(label)
+        view.addSubview(createArtButton)
+    }
+    
+    func setupConstraints() {
+        label.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.centerX.equalToSuperview()
+        }
         
-        let constraints = [
-            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ]
-        
-        NSLayoutConstraint.activate(constraints)
-        
-        presentBodyTrackingVC()
+        createArtButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.topMargin.equalTo(label.snp_bottomMargin).offset(30)
+        }
     }
     
     func presentBodyTrackingVC() {
         let bodyTrackingVC = MotionDetectionViewController()
         navigationController?.pushViewController(bodyTrackingVC, animated: true)
+    }
+    
+    @objc func createArtButtonTapped() {
+        presentBodyTrackingVC()
     }
 }
