@@ -12,13 +12,15 @@ import Vision
 class MotionDetectionViewController: UIViewController {
 
     private var motionDetectionView: MotionDetectionView! //{ view as! motionDetectionView }
+    private lazy var finishArtButton: ButtonFilled = .createButton(text: "test", buttonImage: nil)
+    private var draw: DrawView?
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
     private var handPoseRequest = VNDetectHumanHandPoseRequest()
     
     private let drawOverlay = CAShapeLayer()
-    private let drawPath = UIBezierPath()
+    private let drawPath = MyBezierPath()
     private var evidenceBuffer = [HandGestureProcessor.PointsPair]()
     private var lastDrawPoint: CGPoint?
     private var isFirstSegment = true
@@ -28,6 +30,13 @@ class MotionDetectionViewController: UIViewController {
     
     override func loadView() {
         view = MotionDetectionView()
+        
+        finishArtButton.addTarget(self,
+                                  action: #selector(finishDrawingTapped),
+                                  for: .touchUpInside)
+        
+        setupHierarchy()
+        setupConstraints()
     }
     
     override func viewDidLoad() {
@@ -52,6 +61,7 @@ class MotionDetectionViewController: UIViewController {
         recognizer.numberOfTouchesRequired = 1
         recognizer.numberOfTapsRequired = 2
         view.addGestureRecognizer(recognizer)
+//        motionDetectionView.addTargetToFinishButton(self, action: #selector(finishDrawingTapped))
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -71,6 +81,18 @@ class MotionDetectionViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         cameraFeedSession?.stopRunning()
         super.viewWillDisappear(animated)
+    }
+    
+    private func setupHierarchy() {
+        view.addSubview(finishArtButton)
+        
+    }
+
+    private func setupConstraints() {
+        finishArtButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottomMargin.equalToSuperview().offset(-41)
+        }
     }
     
     func setupAVSession() throws {
@@ -160,6 +182,7 @@ class MotionDetectionViewController: UIViewController {
     private func updatePath(with points: HandGestureProcessor.PointsPair, isLastPointsPair: Bool) {
         // Get the mid point between the tips.
         let (thumbTip, indexTip) = points
+        // drawPoint is the middle point between the thumb and the index
         let drawPoint = CGPoint.midPoint(p1: thumbTip, p2: indexTip)
 
         if isLastPointsPair {
@@ -180,6 +203,7 @@ class MotionDetectionViewController: UIViewController {
                 let midPoint = CGPoint.midPoint(p1: lastPoint, p2: drawPoint)
                 if isFirstSegment {
                     // If it's the first segment of the stroke, draw a line to the midpoint.
+
                     drawPath.addLine(to: midPoint)
                     isFirstSegment = false
                 } else {
@@ -192,6 +216,23 @@ class MotionDetectionViewController: UIViewController {
         }
         // Update the path on the overlay layer.
         drawOverlay.path = drawPath.cgPath
+    }
+    
+    private func drawArt() {
+        ArtFromPath.drawArt(path: drawPath)
+        
+        for path in ArtFromPath.bezierPath {
+            drawOverlay.path = path.cgPath
+            print("Brothers")
+        }
+    }
+    
+    @objc
+    func finishDrawingTapped() {
+        print("Jonas")
+        
+        draw = DrawView(frame: self.view.bounds, path: drawPath)
+        view.addSubview(draw!)
     }
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
@@ -232,7 +273,7 @@ extension MotionDetectionViewController: AVCaptureVideoDataOutputSampleBufferDel
                 return
             }
             // Ignore low confidence points.
-            guard thumbTipPoint.confidence > 0.3 && indexTipPoint.confidence > 0.3 else {
+            guard thumbTipPoint.confidence > 0.5 && indexTipPoint.confidence > 0.5 else {
                 return
             }
             // Convert points from Vision coordinates to AVFoundation coordinates.
@@ -247,4 +288,4 @@ extension MotionDetectionViewController: AVCaptureVideoDataOutputSampleBufferDel
         }
     }
 }
-
+    
