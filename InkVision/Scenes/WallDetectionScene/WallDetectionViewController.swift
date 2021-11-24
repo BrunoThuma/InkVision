@@ -16,6 +16,8 @@ enum AppState: Int16 {
 
 // MARK: - View Controller
 class WallDetectionViewController: UIViewController {
+  var artView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+  
   lazy var ARView: ARSCNView = {
     let sceneView = ARSCNView()
     sceneView.delegate = self
@@ -179,8 +181,7 @@ extension WallDetectionViewController {
         appState = .printed
         ARView.debugOptions = []
 
-        
-        planeNode!.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "grafite")
+        planeNode!.geometry?.firstMaterial?.diffuse.contents = artView
         planeNode?.opacity = 1.0
         
         buttonOutlined.removeFromSuperview()
@@ -220,6 +221,10 @@ extension WallDetectionViewController {
   func savePhoto() {
     guard let image = snapshotView.image else { return }
     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+    
+    let alert = UIAlertController(title: "Success", message: "Art was successfully saved in your gallery", preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
+    self.present(alert, animated: true)
   }
 }
 
