@@ -14,6 +14,8 @@ class MotionDetectionViewController: UIViewController {
     private var motionDetectionView: MotionDetectionView! //{ view as! motionDetectionView }
     private lazy var finishArtButton: ButtonFilled = .createButton(text: "test", buttonImage: nil)
     private var draw: DrawView?
+    private var flag = 0
+    private var cgPoints: [CGPoint] = []
     
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInteractive)
     private var cameraFeedSession: AVCaptureSession?
@@ -38,6 +40,10 @@ class MotionDetectionViewController: UIViewController {
         setupHierarchy()
         setupConstraints()
     }
+    
+//    func exibirDrawView(){
+//        navigationController?.pushViewController(draw!, animated: false)
+//    }
     
     override func viewDidLoad() {
         motionDetectionView = (view as! MotionDetectionView)
@@ -66,6 +72,9 @@ class MotionDetectionViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        draw = DrawView(frame: self.view.bounds)
+        view.addSubview(draw!)
+        view.bringSubviewToFront(finishArtButton)
         do {
             if cameraFeedSession == nil {
                 motionDetectionView.previewLayer.videoGravity = .resizeAspectFill
@@ -189,6 +198,11 @@ class MotionDetectionViewController: UIViewController {
             if let lastPoint = lastDrawPoint {
                 // Add a straight line from the last midpoint to the end of the stroke.
                 drawPath.addLine(to: lastPoint)
+                
+                cgPoints.append(lastPoint)
+                
+                showTrace()
+                clearPreTrace()
             }
             // We are done drawing, so reset the last draw point.
             lastDrawPoint = nil
@@ -196,6 +210,7 @@ class MotionDetectionViewController: UIViewController {
             if lastDrawPoint == nil {
                 // This is the beginning of the stroke.
                 drawPath.move(to: drawPoint)
+                cgPoints.append(drawPoint)
                 isFirstSegment = true
             } else {
                 let lastPoint = lastDrawPoint!
@@ -203,11 +218,18 @@ class MotionDetectionViewController: UIViewController {
                 let midPoint = CGPoint.midPoint(p1: lastPoint, p2: drawPoint)
                 if isFirstSegment {
                     // If it's the first segment of the stroke, draw a line to the midpoint.
-
+                    cgPoints.append(midPoint)
                     drawPath.addLine(to: midPoint)
                     isFirstSegment = false
                 } else {
                     // Otherwise, draw a curve to a midpoint using the last draw point as a control point.
+                    if flag < 4 {
+                        flag += 1
+                    }
+                    else {
+                        cgPoints.append(midPoint)
+                        flag = 0
+                    }
                     drawPath.addQuadCurve(to: midPoint, controlPoint: lastPoint)
                 }
             }
@@ -218,30 +240,43 @@ class MotionDetectionViewController: UIViewController {
         drawOverlay.path = drawPath.cgPath
     }
     
-    private func drawArt() {
-        ArtFromPath.drawArt(path: drawPath)
-        
-        for path in ArtFromPath.bezierPath {
-            drawOverlay.path = path.cgPath
-            print("Brothers")
-        }
-    }
-    
     @objc
     func finishDrawingTapped() {
-        print("Jonas")
-        
-        draw = DrawView(frame: self.view.bounds, path: drawPath)
-        view.addSubview(draw!)
+        showRandom()
+    }
+    
+    func showRandom(){
+        draw!.bShowRandom = true
+        draw!.setNeedsDisplay()
+    }
+    
+    func showTrace(){
+        draw!.showPath = cgPoints
+        cgPoints = []
+        draw!.bShowPath = true
+        draw!.setNeedsDisplay()
+    }
+    
+    func clearScreen(){
+        if let draw = draw {
+            draw.bClear = true
+            draw.setNeedsDisplay()
+            
+        }
+        clearPreTrace()
+    }
+    
+    func clearPreTrace(){
+        evidenceBuffer.removeAll()
+        drawPath.removeAllPoints()
+        drawOverlay.path = drawPath.cgPath
     }
     
     @IBAction func handleGesture(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended else {
             return
         }
-        evidenceBuffer.removeAll()
-        drawPath.removeAllPoints()
-        drawOverlay.path = drawPath.cgPath
+        clearScreen()
     }
 }
 

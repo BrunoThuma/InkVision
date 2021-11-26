@@ -34,4 +34,8 @@ final class MyBezierPath: UIBezierPath {
         self.points.append(.quadCurve(endPoint: endPoint, controlPoint: controlPoint))
         super.addQuadCurve(to: endPoint, controlPoint: controlPoint)
     }
+    override func removeAllPoints() {
+        points.removeAll()
+        super.removeAllPoints()
+    }
 }
