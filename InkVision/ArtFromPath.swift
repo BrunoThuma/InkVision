@@ -19,10 +19,11 @@ final class ArtFromPath {
     
     static let shared = ArtFromPath()
     
-    static func drawArt (path: MyBezierPath) {
+    static func drawArt (path: MyBezierPath) -> [MyBezierPath] {
         for _ in 0...iterations {
             bezierPath.append(drawGeneration(path: path))
         }
+        return bezierPath
     }
     
     static func drawGeneration (path: MyBezierPath) -> MyBezierPath{
@@ -57,7 +58,7 @@ final class ArtFromPath {
             }
             switch newPath.points.last {
             case .move(_):
-                print("case move")
+                break
             case .curve(let endPoint, _, let controlPoint2):
                 lastPoint = endPoint
                 lastCurve = controlPoint2
