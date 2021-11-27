@@ -20,23 +20,15 @@ class StartScreenTipView: UIView {
         return vStack
     }()
     
-    private var sub: UIView = UIView(frame:
-                                        CGRect(x:0,
-                                               y:0,
-                                               width: 201,
-                                               height: 37
-                                              ))
     private var tipTitle: UILabel
     private var icon: UIImageView
     private var tipDescription: UILabel
     
-    init(sfIconName: String, title: String, description: String) {
+    init(iconAssetName: String, title: String, description: String) {
         
-        print("tip is alive")
-        
-        let iconConfig = UIImage.SymbolConfiguration(pointSize: 46)
+//        let iconConfig = UIImage.SymbolConfiguration(pointSize: 46)
         icon = UIImageView(frame: .zero)
-        icon.image = UIImage(systemName: sfIconName, withConfiguration: iconConfig)
+        icon.image = UIImage(named: iconAssetName)
         icon.contentMode = .scaleAspectFit
         icon.translatesAutoresizingMaskIntoConstraints = false
         
@@ -57,25 +49,8 @@ class StartScreenTipView: UIView {
         
         super.init(frame: .zero)
         
-//        sub.frame = tipTitle.bounds
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPink.cgColor,
-                           UIColor.purple.cgColor,
-                           UIColor.cyan.cgColor]
-
-        gradient.startPoint = CGPoint(x: 0.3, y: 0.5)
-        gradient.endPoint = CGPoint(x: 0.6, y: 0.5)
-        
-        gradient.frame = sub.bounds
-        print(tipTitle.bounds)
-        print(sub.bounds)
-        sub.layer.addSublayer(gradient)
-        
-        sub.addSubview(tipTitle)
-        sub.mask = tipTitle
-        
         vStack.distribution = .equalSpacing
-        vStack.addArrangedSubview(sub)
+        vStack.addArrangedSubview(tipTitle)
         vStack.addArrangedSubview(tipDescription)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         
@@ -94,16 +69,33 @@ class StartScreenTipView: UIView {
     }
     
     func setupHierarchy() {
-//        addSubview(sub)
         addSubview(hStack)
     }
 
     func setupConstraints() {
+        icon.snp.makeConstraints { make in
+            make.width.equalTo(53)
+            make.height.equalTo(57)
+        }
+        
         hStack.snp.makeConstraints { make in
             make.height.equalTo(85)
         }
-//        sub.snp.makeConstraints { make in
-//            make.height.equalTo(85)
-//        }
+    }
+    
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        hStack.layoutIfNeeded()
+        vStack.layoutIfNeeded()
+        
+        tipTitle.layoutIfNeeded()
+        
+        if tipTitle.bounds != .zero {
+            let titleGradient = getGradientLayer(bounds: tipTitle.bounds)
+            tipTitle.textColor = gradientColor(bounds: tipTitle.bounds,
+                                               gradientLayer: titleGradient)
+        }
     }
 }

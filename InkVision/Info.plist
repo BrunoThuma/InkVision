@@ -2,24 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>OCR-A BT.ttf</string>
-	</array>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This App uses the Gallery to save the images</string>
-	<key>UILaunchStoryboardName</key>
-	<string>Launch Screen</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>br.brunothuma.InkVision</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This App uses camera for AR and Computer Vision</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This App uses the Gallery to save the images</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OCR-A BT.ttf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -37,6 +35,8 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>Launch Screen</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

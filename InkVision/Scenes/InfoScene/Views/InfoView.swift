@@ -69,8 +69,6 @@ class InfoView: UIView {
         
         super.layoutSubviews()
         
-        
-        
         if bigStarIcon.bounds != .zero {
             let titleGradient = getGradientLayer(bounds: bigStarIcon.bounds)
             bigStarIcon.tintColor = gradientColor(bounds: bigStarIcon.bounds,

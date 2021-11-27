@@ -18,14 +18,14 @@ class StartScreenView: UIView {
     }()
     
     var discoverTipView: StartScreenTipView = {
-        let view = StartScreenTipView(sfIconName: "map.circle",
+        let view = StartScreenTipView(iconAssetName: "InkVisionIconMap",
                                       title: "DISCOVER",
                                       description: "Explore your city in our app to\nfind amazing arts.")
         return view
     }()
     
     var createTipView: StartScreenTipView = {
-        let view = StartScreenTipView(sfIconName: "plus.circle",
+        let view = StartScreenTipView(iconAssetName: "InkVisionIconPlusCircle",
                                       title: "CREATE",
                                       description: "Create your own artwork with\nthe help of generative art to\npublish in the city.")
         return view
@@ -33,7 +33,12 @@ class StartScreenView: UIView {
     
     var startButton: ButtonFilled = .createButton(text: "Start!")
     
+    var darkView: UIView
+    
     init() {
+        darkView = UIView(frame: .zero)
+        darkView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        
         super.init(frame: .zero)
         
         insetsLayoutMarginsFromSafeArea = false
@@ -48,15 +53,21 @@ class StartScreenView: UIView {
     
     private func setupHierarchy() {
         insertSubview(backgroundImage, at: 0)
+        addSubview(darkView)
         addSubview(discoverTipView)
         addSubview(createTipView)
         addSubview(startButton)
     }
 
     private func setupConstraints() {
-        startButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottomMargin.equalToSuperview().offset(-72)
+        
+        backgroundImage.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
+        }
+        
+        darkView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         
         discoverTipView.snp.makeConstraints { make in
@@ -71,9 +82,9 @@ class StartScreenView: UIView {
             make.centerY.equalToSuperview().offset(10)
         }
         
-        backgroundImage.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.edges.equalToSuperview()
+        startButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottomMargin.equalToSuperview().offset(-72)
         }
     }
     
