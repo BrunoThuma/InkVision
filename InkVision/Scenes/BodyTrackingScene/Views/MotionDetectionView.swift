@@ -26,9 +26,6 @@ class MotionDetectionView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupOverlay()
-        
-//        setupHierarchy()
-//        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -46,17 +43,6 @@ class MotionDetectionView: UIView {
     private func setupOverlay() {
         previewLayer.addSublayer(overlayLayer)
     }
-    
-//    private func setupHierarchy() {
-//        addSubview(finishArtButton)
-//    }
-//
-//    private func setupConstraints() {
-//        finishArtButton.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.bottomMargin.equalToSuperview().offset(41)
-//        }
-//    }
     
     func addTargetToFinishButton(_ target: Any?, action: Selector) {
         finishArtButton.addTarget(target, action: action, for: .touchUpInside)
