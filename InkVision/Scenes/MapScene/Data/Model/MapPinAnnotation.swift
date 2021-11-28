@@ -33,14 +33,16 @@ class MapPinAnnotation: NSObject, MKAnnotation {
 
     // TODO: Fix icon, system name and UIImage call
     lazy var imageView: UIImageView = {
-        let asset = (self.type == .art) ? "questionmark.circle.fill" :  "questionmark.circle"
+//        let asset = (self.type == .art) ? "questionmark.circle.fill" :  "questionmark.circle"
+        let asset = "MapPinAnnotation"
 
-        return UIImageView(image: UIImage(systemName: asset)!.imageWithColor(color: unselectedColor))
+        return UIImageView(image: UIImage(named: asset)!.imageWithColor(color: unselectedColor))
     }()
 
     // TODO: Fix color
     lazy var selectedColor: UIColor = {
-        (type == .art) ? UIColor.green : UIColor.red
+        UIColor(named: "InkVisionMapPinBlue")!
+//        (type == .art) ? UIColor.green : UIColor.red
     }()
 
     // MARK: - Initialization

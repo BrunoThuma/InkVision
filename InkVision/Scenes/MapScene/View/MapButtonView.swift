@@ -15,14 +15,14 @@ final class MapButtonView: UIButton {
 
     // MARK: - Initialization
 
-    init(iconName: String, action: @escaping (() -> Void)) {
+    init(isSmallButton: Bool, iconName: String, action: @escaping (() -> Void)) {
         self.iconName = iconName
         self.action = action
 
         super.init(frame: .zero)
 
-        setupView()
-        setupConstraints()
+        setupView(isSmallButton: isSmallButton)
+        setupConstraints(isSmallButton: isSmallButton)
     }
 
     @available(*, unavailable)
@@ -32,8 +32,9 @@ final class MapButtonView: UIButton {
 
     // MARK: - Private methods
 
-    private func setupView() {
-        let font = UIFont.systemFont(ofSize: LayoutMetrics.iconFontSize, weight: LayoutMetrics.iconFontWeight)
+    private func setupView(isSmallButton: Bool) {
+        let font = UIFont.systemFont(ofSize: isSmallButton ? CGFloat(20) : CGFloat(39),
+                                     weight: LayoutMetrics.iconFontWeight)
         let configuration = UIImage.SymbolConfiguration(font: font)
 
         // TODO: Fix color
@@ -41,16 +42,16 @@ final class MapButtonView: UIButton {
             .imageWithColor(color: UIColor.white)
 
         // TODO: Fix color
-        backgroundColor = UIColor.systemGray4
+        backgroundColor = UIColor(named: "pink")
         setImage(icon, for: .normal)
-        layer.cornerRadius = LayoutMetrics.backgroundRectCornerRadius
+        layer.cornerRadius = isSmallButton ? CGFloat(38/2) : CGFloat(70/2)
 
         addTarget(self, action: #selector(tap), for: .touchUpInside)
     }
 
-    private func setupConstraints() {
+    private func setupConstraints(isSmallButton: Bool) {
         snp.makeConstraints { make in
-            make.size.equalTo(LayoutMetrics.backgroundRectSize)
+            make.size.equalTo(isSmallButton ? CGFloat(38) : CGFloat(70))
         }
     }
 
@@ -61,10 +62,10 @@ final class MapButtonView: UIButton {
     // MARK: - Layout Metrics
 
     private enum LayoutMetrics {
-        private static let rectSize: Int = 45
+        private static let rectSize: Int = 38
 
         static let backgroundRectSize = CGSize(width: rectSize, height: rectSize)
-        static let backgroundRectCornerRadius: CGFloat = 8
+        static let backgroundRectCornerRadius: CGFloat = CGFloat(rectSize/2)
         static let iconFontSize: CGFloat = 20
         static let iconFontWeight: UIFont.Weight = .bold
     }

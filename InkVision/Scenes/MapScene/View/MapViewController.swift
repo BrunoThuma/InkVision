@@ -3,7 +3,7 @@
 //  InkVision
 //
 //  Created by Bruno Thuma on 27/11/21.
-//
+//  Credits to Vinicius Couto
 
 import MapKit
 import SnapKit
@@ -16,15 +16,23 @@ final class MapViewController: UIViewController {
     private let mapAdapter: MapAdapter = .init()
 
     private lazy var mapView: MKMapView = .init()
-    private lazy var infoButton: MapButtonView = .init(iconName: "questionmark",
-                                                      action: presentAddMenuModal)
-    private lazy var locationButton: MapButtonView = .init(iconName: "location",
+    private lazy var infoButton: MapButtonView = .init(isSmallButton: true,
+                                                       iconName: "questionmark",
+                                                       action: presentAddMenuModal)
+    private lazy var locationButton: MapButtonView = .init(isSmallButton: true,
+                                                           iconName: "location",
                                                            action: willLocateUser)
-    private lazy var createButton: MapButtonView = .init(iconName: "plus.circle",
-                                                           action: willLocateUser)
+    private lazy var createButton: MapButtonView = .init(isSmallButton: false,
+                                                         iconName: "plus.circle",
+                                                         action: presentCreateArtModal)
     private weak var userLocationDelegate: UserLocationDelegate?
 
     // MARK: - Overridden methods
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +42,6 @@ final class MapViewController: UIViewController {
         setupDelegates()
         setupConstraints()
 
-        // TODO: this ugly. make pretty.
         #if DEBUG
             let repository = MapPinAnnotationRepository()
             let pins = repository.pins()
@@ -63,6 +70,7 @@ final class MapViewController: UIViewController {
         view.addSubview(mapView)
         view.addSubview(infoButton)
         view.addSubview(locationButton)
+        view.addSubview(createButton)
     }
 
     private func setupConstraints() {
@@ -83,6 +91,12 @@ final class MapViewController: UIViewController {
             make.trailingMargin.equalToSuperview()
                 .offset(LayoutMetrics.trailingOffset)
         }
+        
+        createButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+                .offset(LayoutMetrics.createButtonBottomOffset)
+            make.centerX.equalToSuperview()
+        }
     }
 
     // MARK: - Present child modals methods
@@ -91,6 +105,11 @@ final class MapViewController: UIViewController {
         let menuVC = InfoViewController()
 //        menuVC.modalDelegate = self
         present(menuVC, animated: true)
+    }
+    
+    private func presentCreateArtModal() {
+        let artVC = MotionDetectionViewController()
+        present(artVC, animated: true)
     }
 
 //    private func presentAddLocationModal(_ selectedLocationType: MapPinType) {
@@ -124,13 +143,10 @@ final class MapViewController: UIViewController {
     private enum LayoutMetrics {
         static let centeringRegionRadius: CLLocationDistance = 1000
         static let resultsViewAnimationDuration: TimeInterval = 0.2
-        static let searchBarClosedBottomOffset: CGFloat = -30
-        static let searchBarOpenBottomOffset: CGFloat = 30
-        static let searchBarLeadingOffset: CGFloat = 5
-        static let searchBarInteractionAnimationDuration: TimeInterval = 0.2
         static let trailingOffset: CGFloat = -5
         static let addButtonTopOffset: CGFloat = 15
-        static let buttonDistance: CGFloat = 5
+        static let buttonDistance: CGFloat = 10
+        static let createButtonBottomOffset = -60
     }
 }
 

@@ -10,8 +10,9 @@ import Foundation
 final class MapPinAnnotationRepository {
     func pins() -> [MapPinAnnotation] {
         [
-            MapPinAnnotation.fixtureSpot(),
-            MapPinAnnotation.fixtureStopper(),
+            MapPinAnnotation.fixtureArt1(),
+            MapPinAnnotation.fixtureArt2(),
+            MapPinAnnotation.fixtureArt3(),
         ]
     }
 }
