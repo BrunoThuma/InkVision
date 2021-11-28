@@ -23,15 +23,19 @@ final class MapAdapter: NSObject, MKMapViewDelegate {
     // Inspiration from https://stackoverflow.com/a/41342800
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        // Isolate user location annotation
-        if let annotation = annotation as? MKUserLocation {
-            // User location annotation
-            let pin = mapView.view(for: annotation) as? MKPinAnnotationView
-                ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
-            pin.image = UIImage(systemName: "questionmark")
-
-            return pin
-        } else if let annotation = annotation as? MapPinAnnotation {
+        // TODO: Define user icon or make this a guard
+//        if let annotation = annotation as? MKUserLocation {
+//            // User location annotation
+//            let pin = mapView.view(for: annotation) as? MKPinAnnotationView
+//                ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+//            pin.image = UIImage(systemName: "questionmark")
+//            return pin
+//        }
+        guard !(annotation is MKUserLocation) else {
+            return nil
+        }
+        // In case of custom user icon use else if let annotation ...
+        if let annotation = annotation as? MapPinAnnotation {
             // Spots annotation
             let annotationIdentifier = annotation.type.rawValue
             var annotationView: MKAnnotationView?
