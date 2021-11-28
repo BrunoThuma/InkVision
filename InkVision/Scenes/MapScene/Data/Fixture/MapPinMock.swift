@@ -9,7 +9,7 @@ import MapKit
 
 #if DEBUG
     extension MapPinAnnotation {
-        static func fixtureArt1(title: String = "Brunin Gameplays",
+        static func fixtureArt1(title: String = "Rua do Brunin Gameplays",
                                 type: MapPinType = .art,
                                 coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(
                                     latitude: -25.429981,
@@ -27,11 +27,20 @@ import MapKit
             MapPinAnnotation(title: title, coordinate: coordinate, type: type)
         }
         
-        static func fixtureArt3(title: String = "Spot da massa",
+        static func fixtureArt3(title: String = "Boqueirao",
                                 type: MapPinType = .art,
                                 coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(
                                     latitude: -25.5066690,
                                     longitude: -49.2333497))
+            -> MapPinAnnotation {
+            MapPinAnnotation(title: title, coordinate: coordinate, type: type)
+        }
+        
+        static func fixtureArt4(title: String = "Casa do Brunin Gameplays",
+                                type: MapPinType = .art,
+                                coordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(
+                                    latitude: -25.4829981,
+                                    longitude: -49.2972083))
             -> MapPinAnnotation {
             MapPinAnnotation(title: title, coordinate: coordinate, type: type)
         }
