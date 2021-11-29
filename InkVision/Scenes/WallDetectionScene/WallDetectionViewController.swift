@@ -103,6 +103,7 @@ class WallDetectionViewController: UIViewController {
     
     func setupHierarchy() {
         view.backgroundColor = UIColor(named: "backgroundGray")
+        self.navigationController?.isNavigationBarHidden = true
         snapshotView.image = nil
         
         view.addSubview(ARView)
