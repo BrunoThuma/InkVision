@@ -8,18 +8,9 @@
 import UIKit
 
 class ArtPreviewViewController: UIViewController {
-    var artView: UIImageView = UIImageView()
+    var artView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
-    lazy var downloadButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .regular, scale: .large)
-        button.setImage(UIImage(systemName: "square.and.arrow.down.on.square", withConfiguration: config), for: .normal)
-        button.tintColor = UIColor(named: "pink")
-        
-        return button
-    }()
-    
-    var continueButton: ButtonFilled = .createButton(text: "Continue", buttonImage: "arrow.forward")
+    var continueButton: ButtonFilled = .createButton(text: "Find a wall", buttonImage: "arrow.forward")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +22,9 @@ class ArtPreviewViewController: UIViewController {
     
     func setupHierarchy() {
         view.backgroundColor = UIColor(named: "backgroundGray")
-        
-        artView.image = UIImage(named: "grafite")
+        self.navigationController?.isNavigationBarHidden = true
+
         view.addSubview(artView)
-        view.addSubview(downloadButton)
         view.addSubview(continueButton)
     }
     
@@ -49,30 +39,14 @@ class ArtPreviewViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-130)
         }
         
-        downloadButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(730)
-            make.leading.equalTo(30)
-        }
-        
         continueButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(730)
-            make.centerX.equalToSuperview().offset(30)
+            make.centerX.equalToSuperview()
         }
     }
     
     func initGestureRecognizers() {
-        downloadButton.addTarget(self, action: #selector(savePhoto), for: .touchUpInside)
         continueButton.addTarget(self, action: #selector(nextScene), for: .touchUpInside)
-    }
-    
-    @objc
-    func savePhoto() {
-        guard let image = artView.image else { return }
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        
-        let alert = UIAlertController(title: "Success", message: "Art was successfully saved in your gallery", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-        self.present(alert, animated: true)
     }
 
     @objc

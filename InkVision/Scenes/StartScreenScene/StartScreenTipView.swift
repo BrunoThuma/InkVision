@@ -25,8 +25,6 @@ class StartScreenTipView: UIView {
     private var tipDescription: UILabel
     
     init(iconAssetName: String, title: String, description: String) {
-        
-//        let iconConfig = UIImage.SymbolConfiguration(pointSize: 46)
         icon = UIImageView(frame: .zero)
         icon.image = UIImage(named: iconAssetName)
         icon.contentMode = .scaleAspectFit

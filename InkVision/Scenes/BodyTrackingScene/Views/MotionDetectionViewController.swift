@@ -12,7 +12,8 @@ import Vision
 class MotionDetectionViewController: UIViewController {
 
     private var motionDetectionView: MotionDetectionView! //{ view as! motionDetectionView }
-    private lazy var finishArtButton: ButtonFilled = .createButton(text: "test", buttonImage: nil)
+    private lazy var finishArtButton: ButtonFilled = .createButton(text: "Generate art", buttonImage: nil)
+    private lazy var nextButton: ButtonFilled = .createButton(text: "", buttonImage: "arrow.forward")
     private var draw: DrawView?
     private var flag = 0
     private var cgPoints: [CGPoint] = []
@@ -30,6 +31,8 @@ class MotionDetectionViewController: UIViewController {
     
     private var gestureProcessor = HandGestureProcessor()
     
+    weak var delegate: MapViewControllerDelegate?
+    
     override func loadView() {
         view = MotionDetectionView()
         
@@ -37,14 +40,14 @@ class MotionDetectionViewController: UIViewController {
                                   action: #selector(finishDrawingTapped),
                                   for: .touchUpInside)
         
+        nextButton.addTarget(self,
+                                  action: #selector(nextSceneTapped),
+                                  for: .touchUpInside)
+        
         setupHierarchy()
         setupConstraints()
     }
-    
-//    func exibirDrawView(){
-//        navigationController?.pushViewController(draw!, animated: false)
-//    }
-    
+
     override func viewDidLoad() {
         motionDetectionView = (view as! MotionDetectionView)
         
@@ -75,6 +78,7 @@ class MotionDetectionViewController: UIViewController {
         draw = DrawView(frame: self.view.bounds)
         view.addSubview(draw!)
         view.bringSubviewToFront(finishArtButton)
+        view.bringSubviewToFront(nextButton)
         do {
             if cameraFeedSession == nil {
                 motionDetectionView.previewLayer.videoGravity = .resizeAspectFill
@@ -94,12 +98,19 @@ class MotionDetectionViewController: UIViewController {
     
     private func setupHierarchy() {
         view.addSubview(finishArtButton)
-        
+        view.addSubview(nextButton)
     }
 
     private func setupConstraints() {
         finishArtButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
+            make.bottomMargin.equalToSuperview().offset(-41)
+        }
+        
+        nextButton.alpha = 0
+        nextButton.snp.makeConstraints { make in
+            make.width.equalTo(50)
+            make.centerX.equalToSuperview().offset(130)
             make.bottomMargin.equalToSuperview().offset(-41)
         }
     }
@@ -242,7 +253,22 @@ class MotionDetectionViewController: UIViewController {
     
     @objc
     func finishDrawingTapped() {
+        if nextButton.alpha == 0 {
+            nextButton.alpha = 1
+            
+            finishArtButton.snp.updateConstraints { make in
+                make.width.equalTo(260)
+                make.centerX.equalToSuperview().offset(-40)
+            }
+        }
+
         showRandom()
+    }
+    
+    @objc
+    func nextSceneTapped() {
+        delegate?.presentArtPreview(view: draw!)
+        dismiss(animated: true, completion: nil)
     }
     
     func showRandom(){
@@ -323,4 +349,4 @@ extension MotionDetectionViewController: AVCaptureVideoDataOutputSampleBufferDel
         }
     }
 }
-    
+

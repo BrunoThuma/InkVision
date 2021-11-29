@@ -15,15 +15,16 @@ final class ArtFromPath {
     static var rControl2: CGFloat = 40
     static var rQuad: CGFloat = 20
     static var rPoint: CGFloat = 20
-    static var bezierPath: [MyBezierPath] = []
     
     static let shared = ArtFromPath()
     
     static func drawArt (path: MyBezierPath) -> [MyBezierPath] {
+        var paths = [MyBezierPath]()
+        
         for _ in 0...iterations {
-            bezierPath.append(drawGeneration(path: path))
+            paths.append(drawGeneration(path: path))
         }
-        return bezierPath
+        return paths
     }
     
     static func drawGeneration (path: MyBezierPath) -> MyBezierPath{

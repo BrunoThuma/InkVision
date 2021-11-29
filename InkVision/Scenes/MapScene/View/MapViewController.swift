@@ -109,6 +109,7 @@ final class MapViewController: UIViewController {
     
     private func presentCreateArtModal() {
         let artVC = MotionDetectionViewController()
+        artVC.delegate = self
         present(artVC, animated: true)
     }
 
@@ -171,3 +172,18 @@ extension MapViewController: LocationAdapterDelegate, MapAdapterDelegate {
         presentLocationOptionModal(of: type)
     }
 }
+
+protocol MapViewControllerDelegate: AnyObject {
+    func presentArtPreview(view: UIView)
+}
+
+extension MapViewController: MapViewControllerDelegate {
+    func presentArtPreview(view: UIView) {
+        view.removeFromSuperview()
+        let newScene = ArtPreviewViewController()
+        newScene.artView = view
+        self.navigationController?.pushViewController(newScene, animated: true)
+    }
+}
+
+    
