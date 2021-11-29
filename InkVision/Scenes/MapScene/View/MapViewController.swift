@@ -48,7 +48,15 @@ final class MapViewController: UIViewController {
             mapView.addAnnotations(pins)
         #endif
     }
-
+    
+    // MARK: - Public methods
+    
+    #if DEBUG
+        func addBruninsHomeToMap() {
+            mapView.addAnnotation(MapPinAnnotation.fixtureArt4())
+        }
+    #endif
+    
     // MARK: - Private methods
 
     private func setupViews() {
@@ -103,7 +111,6 @@ final class MapViewController: UIViewController {
 
     private func presentAddMenuModal() {
         let menuVC = InfoViewController()
-//        menuVC.modalDelegate = self
         present(menuVC, animated: true)
     }
     
@@ -112,20 +119,6 @@ final class MapViewController: UIViewController {
         artVC.delegate = self
         present(artVC, animated: true)
     }
-
-//    private func presentAddLocationModal(_ selectedLocationType: MapPinType) {
-//        let locationVC: AddLocationFormsController = .init(locationType: selectedLocationType)
-//
-//        if let lastKnownLocation = getUserLocation() {
-//            locationVC.setLastKnownLocation(lastKnownLocation)
-//        } else {
-//            // FIXME: avoid this
-//            fatalError("could not update users last known location")
-//        }
-//
-//        modalPresentationStyle = .overCurrentContext
-//        present(locationVC, animated: true)
-//    }
     
     private func presentAddLocationModal(_ selectedLocationType: MapPinType) {
         let menuVC = InfoViewController()
@@ -134,9 +127,17 @@ final class MapViewController: UIViewController {
     }
 
     private func presentLocationOptionModal(of type: MapPinType) {
-        let menuVC = InfoViewController()
-        modalPresentationStyle = .overCurrentContext
-        present(menuVC, animated: true, completion: nil)
+        let menuVC = MapAnnotationDescriptionViewController()
+        if let presentationController = menuVC.presentationController as? UISheetPresentationController {
+            
+            presentationController.detents = [.medium()]
+        }
+                
+                self.present(menuVC, animated: true)
+        
+//        modalPresentationStyle = .overCurrentContext
+//        present(menuVC, animated: true, completion: nil)
+        addBruninsHomeToMap()
     }
 
     // MARK: - Layout Metrics

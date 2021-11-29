@@ -52,7 +52,7 @@ class InfoView: UIView {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 400))
         
         
-        let info = InfoFeatureView(iconAssetName: "mapFeature",
+        let info = InfoFeatureView(iconAssetName: "map icon",
                                       title: "DISCOVER",
                                       description: "Explore your city in our app to find amazing arts. Click on the pins on the map and see the shortest path to it.")
     
@@ -65,7 +65,7 @@ class InfoView: UIView {
         let container = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 400))
         
         
-        let info = InfoFeatureView(iconAssetName: "createFeature",
+        let info = InfoFeatureView(iconAssetName: "plus icon",
                                       title: "CREATE",
                                       description: "Create your own artwork with the help of generative art to publish in the city. On the plus button you will find unusual ways to create your own art. See how to create it below!")
     
