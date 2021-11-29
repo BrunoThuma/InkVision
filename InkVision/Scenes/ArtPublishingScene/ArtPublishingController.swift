@@ -21,7 +21,7 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
         let label = UILabel()
         label.text = "WE'RE HALF WAY THERE"
         label.textColor = .white
-        label.font = UIFont.systemFont(ofSize: 22)
+        label.font = UIFont(name: "OCR-A BT", size: 25)
         
         return label
     }()
@@ -51,6 +51,8 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        publishButton.addTarget(self, action: #selector(mapScene), for: .touchUpInside)
         
         setupHierarchy()
         setupConstraints()
@@ -87,12 +89,12 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
             make.width.equalTo(350)
             make.height.equalTo(600)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(80)
+            make.top.equalToSuperview().offset(70)
         }
         
         labelInput.snp.makeConstraints { make in
             make.leading.equalTo(30)
-            make.top.equalToSuperview().offset(700)
+            make.top.equalToSuperview().offset(690)
         }
         
         textInput.layer.cornerRadius = 10
@@ -102,12 +104,12 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
             make.width.equalTo(320)
             make.height.equalTo(46)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(730)
+            make.top.equalToSuperview().offset(720)
         }
         
         publishButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(800)
+            make.top.equalToSuperview().offset(790)
         }
     }
     
@@ -131,6 +133,11 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
         if view.frame.origin.y != 0 {
             view.frame.origin.y = 0
         }
+    }
+    
+    @objc
+    func mapScene() {
+        self.navigationController?.pushViewController(MapViewController(), animated: true)
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
