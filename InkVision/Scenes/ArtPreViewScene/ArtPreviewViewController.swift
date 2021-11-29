@@ -8,7 +8,8 @@
 import UIKit
 
 class ArtPreviewViewController: UIViewController {
-    var artView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    var artImage: UIImage = UIImage()
+    var artView: UIImageView = UIImageView()
     
     var continueButton: ButtonFilled = .createButton(text: "Find a wall", buttonImage: "arrow.forward")
 
@@ -24,7 +25,9 @@ class ArtPreviewViewController: UIViewController {
         view.backgroundColor = UIColor(named: "backgroundGray")
         self.navigationController?.isNavigationBarHidden = true
 
+        artView.image = artImage
         view.addSubview(artView)
+
         view.addSubview(continueButton)
     }
     
@@ -52,10 +55,7 @@ class ArtPreviewViewController: UIViewController {
     @objc
     func nextScene() {
         let newScene = WallDetectionViewController()
-        artView.layer.borderWidth = 0
-        artView.layer.cornerRadius = 0
-        artView.layer.masksToBounds = false
-        newScene.artView = artView
+        newScene.artImage = artImage
         self.navigationController?.pushViewController(newScene, animated: true)
     }
 }

@@ -60,8 +60,6 @@ class ArtPublishingController: UIViewController, UITextFieldDelegate {
     func setupHierarchy() {
         view.backgroundColor = UIColor(named: "backgroundGray")
         self.navigationController?.isNavigationBarHidden = true
-        
-        artView.image = UIImage(named: "grafite")
 
         view.addSubview(scrollView)
         scrollView.addSubview(viewTitle)

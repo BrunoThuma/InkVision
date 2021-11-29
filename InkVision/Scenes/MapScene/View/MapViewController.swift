@@ -174,14 +174,13 @@ extension MapViewController: LocationAdapterDelegate, MapAdapterDelegate {
 }
 
 protocol MapViewControllerDelegate: AnyObject {
-    func presentArtPreview(view: UIView)
+    func presentArtPreview(image: UIImage)
 }
 
 extension MapViewController: MapViewControllerDelegate {
-    func presentArtPreview(view: UIView) {
-        view.removeFromSuperview()
+    func presentArtPreview(image: UIImage) {
         let newScene = ArtPreviewViewController()
-        newScene.artView = view
+        newScene.artImage = image
         self.navigationController?.pushViewController(newScene, animated: true)
     }
 }

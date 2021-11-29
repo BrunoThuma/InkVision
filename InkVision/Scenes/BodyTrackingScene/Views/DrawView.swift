@@ -26,7 +26,7 @@ class DrawView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func render() {//}-> UIImage {
+    func render() -> UIImage {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 9
     
@@ -37,7 +37,8 @@ class DrawView: UIView {
         }
         let saver = ImageSaver()
         saver.writeToPhotoAlbum(image: image)
-        //return image
+        
+        return image
     }
     
     override func draw( _ rect: CGRect) {

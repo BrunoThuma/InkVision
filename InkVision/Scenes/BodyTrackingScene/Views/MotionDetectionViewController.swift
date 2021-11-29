@@ -267,7 +267,7 @@ class MotionDetectionViewController: UIViewController {
     
     @objc
     func nextSceneTapped() {
-        delegate?.presentArtPreview(view: draw!)
+        delegate?.presentArtPreview(image: draw!.render())
         dismiss(animated: true, completion: nil)
     }
     

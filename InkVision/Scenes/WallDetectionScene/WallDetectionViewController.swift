@@ -16,7 +16,8 @@ enum AppState: Int16 {
 
 // MARK: - View Controller
 class WallDetectionViewController: UIViewController {
-    var artView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+    var artImage: UIImage = UIImage()
+    var artView: UIImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
     
     lazy var ARView: ARSCNView = {
         let sceneView = ARSCNView()
@@ -184,7 +185,7 @@ extension WallDetectionViewController {
                 appState = .printed
                 ARView.debugOptions = []
                 
-                planeNode!.geometry?.firstMaterial?.diffuse.contents = artView
+                planeNode!.geometry?.firstMaterial?.diffuse.contents = artImage
                 planeNode?.opacity = 1.0
                 
                 messageButton.removeFromSuperview()
