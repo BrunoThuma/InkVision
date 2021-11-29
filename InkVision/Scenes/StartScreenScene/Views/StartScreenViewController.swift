@@ -26,13 +26,17 @@ class StartScreenViewController: UIViewController {
     }
     
     @objc func startButtonTapped() {
+        let mapVC = MapViewController()
+        navigationController?.pushViewController(mapVC,
+                                                 animated: true)
+        
 //        let bodyTrackingVC = MotionDetectionViewController()
 //        navigationController?.pushViewController(bodyTrackingVC,
 //                                                 animated: true)
 
-        let infoVC = InfoViewController()
-        present(infoVC,
-                animated: true,
-                completion: nil)
+//        let infoVC = InfoViewController()
+//        present(infoVC,
+//                animated: true,
+//                completion: nil)
     }
 }
