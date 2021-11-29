@@ -18,14 +18,14 @@ class StartScreenView: UIView {
     }()
     
     var discoverTipView: StartScreenTipView = {
-        let view = StartScreenTipView(iconAssetName: "InkVisionIconMap",
+        let view = StartScreenTipView(iconAssetName: "map icon",
                                       title: "DISCOVER",
                                       description: "Explore your city in our app to\nfind amazing arts.")
         return view
     }()
     
     var createTipView: StartScreenTipView = {
-        let view = StartScreenTipView(iconAssetName: "InkVisionIconPlusCircle",
+        let view = StartScreenTipView(iconAssetName: "plus icon",
                                       title: "CREATE",
                                       description: "Create your own artwork with\nthe help of generative art to\npublish in the city.")
         return view

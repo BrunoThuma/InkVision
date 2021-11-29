@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app uses location to show you arts around you</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app uses location to show you arts around you</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -16,6 +12,10 @@
 	<string>1.0</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This App uses camera for AR and Computer Vision</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app uses location to show you arts around you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app uses location to show you arts around you</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This App uses the Gallery to save the images</string>
 	<key>UIAppFonts</key>
